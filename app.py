@@ -28,3 +28,19 @@ if st.button('Predict House Value'):
     ]], columns=model.feature_names_in_)
     prediction = model.predict(input_data)
     st.success(f"Predicted House Price: ${prediction[0] * 100:.0f},000")
+    st.subheader("Location Insight")
+    st.write("Here is the approximate location of the property you are pricing:")
+    
+    map_data = pd.DataFrame({'lat': [Latitude], 'lon': [Longitude]})
+    st.map(map_data, zoom=6)
+    st.subheader("Property vs. State Averages")
+    st.write("Neighborhood Comparison:")
+    
+    comparison_df = pd.DataFrame({
+        'Feature': ['Median Income', 'House Age', 'Avg Rooms', 'Avg Bedrooms'],
+        'Your Input': [MedInc, HouseAge, AveRooms, AveBedrms],
+        'CA Average': [3.87, 28.64, 5.43, 1.10]
+    }).set_index('Feature')
+    
+    # Display a native Streamlit bar chart
+    st.bar_chart(comparison_df)
